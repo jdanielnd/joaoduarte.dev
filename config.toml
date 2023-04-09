@@ -1,7 +1,7 @@
 # Basic config
 baseURL = "/"
 theme = "hugo-bearcub"
-copyright = "João Duarte © 2019-{year}"
+copyright = "João Duarte ©"
 defaultContentLanguage = "pt"
 
 # Generate a nice robots.txt for SEO
@@ -33,7 +33,7 @@ enableRobotsTXT = true
     LanguageCode = "en-US"
     contentDir = "content/en"
     [languages.en.params]
-      blogPath = "/en/blog" # Path to your blog section (used by RSS)
+      blogPath = "/en/posts" # Path to your blog section (used by RSS)
       madeWith = "Made with [Hugo](https://gohugo.io/) and [Bear Cub](https://github.com/clente/hugo-bearcub), hosted on [Github](https://github.com)."
       description = "This is my blog, where I share some ideas :)"
   [languages.pt]
@@ -42,7 +42,7 @@ enableRobotsTXT = true
     LanguageCode = "pt-BR"
     contentDir = "content/pt"
     [languages.pt.params]
-      blogPath = "/blog" # Path to your blog section (used by RSS)
+      blogPath = "/posts" # Path to your blog section (used by RSS)
       madeWith = "Feito com [Hugo](https://gohugo.io/) e [Bear Cub](https://github.com/clente/hugo-bearcub), hospedado no [Github](https://github.com)."
       description = "Este é o meu blog, onde compartilho algumas ideias :)"
 
