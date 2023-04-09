@@ -4,9 +4,9 @@ menu: "main"
 weight: 1
 ---
 
-# Hi, I am JD!
+# Hi.
 
-I am CTO & Co-founder of Trybe.
+I am JD, CTO and co-founder of Trybe.
 
 I truly believe in three things:
 

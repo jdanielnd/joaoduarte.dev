@@ -4,9 +4,9 @@ menu: "main"
 weight: 1
 ---
 
-# Olá, eu sou o JD!
+# Olá.
 
-Sou CTO & Co-fundador da Trybe.
+Eu sou o JD, sou CTO e co-fundador da Trybe.
 
 Eu acredito verdadeiramente em três coisas:
 1. um pequeno número de pessoas obstinadas pode mudar o mundo;
