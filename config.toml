@@ -1,5 +1,5 @@
 # Basic config
-baseURL = "/"
+baseURL = "https://joaoduarte.dev/"
 theme = "hugo-bearcub"
 copyright = "João Duarte ©"
 defaultContentLanguage = "pt"
