@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>trybe on João Duarte</title>
+    <link>/en/tags/trybe/</link>
+    <description>Recent content in trybe on João Duarte</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-US</language>
+    <copyright>João Duarte © 2019-{year}</copyright>
+    <lastBuildDate>Wed, 18 Sep 2019 00:00:00 +0000</lastBuildDate><atom:link href="/en/tags/trybe/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Trybe: people first, once again!</title>
+      <link>/en/blog/trybe-gente-e-tudo/</link>
+      <pubDate>Wed, 18 Sep 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/en/blog/trybe-gente-e-tudo/</guid>
+      <description>Those who have worked with us or know a bit of our history know that people are our main focus. We sleep and wake up thinking about the well-being and success of the people around us. Not surprisingly, the mission of AppProva has always been to create more opportunities for people, both for those who use our products and those who helped build them.
+Today marks the beginning of a new chapter in this journey.</description>
+    </item>
+    
+  </channel>
+</rss>
