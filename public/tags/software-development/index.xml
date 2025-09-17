@@ -1,22 +1,20 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>software development on João Duarte</title>
-    <link>/tags/software-development/</link>
-    <description>Recent content in software development on João Duarte</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <title>Software Development on João Duarte</title>
+    <link>http://localhost:1313/tags/software-development/</link>
+    <description>Recent content in Software Development on João Duarte</description>
+    <generator>Hugo</generator>
     <language>pt-BR</language>
-    <copyright>João Duarte © 2019-{year}</copyright>
-    <lastBuildDate>Sun, 04 Aug 2019 00:00:00 +0000</lastBuildDate><atom:link href="/tags/software-development/index.xml" rel="self" type="application/rss+xml" />
+    <copyright>João Duarte ©</copyright>
+    <lastBuildDate>Sun, 04 Aug 2019 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/software-development/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Desenvolvimento de Software é um Esporte Coletivo</title>
-      <link>/blog/desenvolvimento-software-esporte-coletivo/</link>
+      <link>http://localhost:1313/posts/desenvolvimento-software-esporte-coletivo/</link>
       <pubDate>Sun, 04 Aug 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/blog/desenvolvimento-software-esporte-coletivo/</guid>
-      <description>É muito comum imaginar um engenheiro de software como aquele gênio solitário que gosta de trabalhar sozinho, recluso, e não precisa de mais ninguém para resolver qualquer problema que apareça.
-É verdade que por algum tempo, a computação tenha atraído pessoas com personalidade mais introspectiva. Mas o que tem acontecido é que os times que têm obtido maior sucesso no longo prazo são aqueles que encaram o desenvolvimento de software como um esporte coletivo.</description>
+      <guid>http://localhost:1313/posts/desenvolvimento-software-esporte-coletivo/</guid>
+      <description>&lt;p&gt;É muito comum imaginar um engenheiro de software como aquele gênio solitário que gosta de trabalhar sozinho, recluso, e não precisa de mais ninguém para resolver qualquer problema que apareça.&lt;/p&gt;&#xA;&lt;p&gt;É verdade que por algum tempo, a computação tenha atraído pessoas com personalidade mais introspectiva. Mas o que tem acontecido é que os times que têm obtido maior sucesso no longo prazo são aqueles que encaram o desenvolvimento de software como um esporte coletivo.&lt;/p&gt;</description>
     </item>
-    
   </channel>
 </rss>

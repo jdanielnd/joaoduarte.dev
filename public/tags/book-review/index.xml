@@ -1,23 +1,20 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>book-review on João Duarte</title>
-    <link>/tags/book-review/</link>
-    <description>Recent content in book-review on João Duarte</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <title>Book-Review on João Duarte</title>
+    <link>http://localhost:1313/tags/book-review/</link>
+    <description>Recent content in Book-Review on João Duarte</description>
+    <generator>Hugo</generator>
     <language>pt-BR</language>
-    <copyright>João Duarte © 2019-{year}</copyright>
-    <lastBuildDate>Sat, 18 Apr 2020 00:00:00 +0000</lastBuildDate><atom:link href="/tags/book-review/index.xml" rel="self" type="application/rss+xml" />
+    <copyright>João Duarte ©</copyright>
+    <lastBuildDate>Sat, 18 Apr 2020 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/book-review/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Essencialismo: A disciplinada busca por menos</title>
-      <link>/blog/essencialismo/</link>
+      <link>http://localhost:1313/posts/essencialismo/</link>
       <pubDate>Sat, 18 Apr 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/blog/essencialismo/</guid>
-      <description>Comprei esse livro em 2015 na MIT Coop, uma livraria/cooperativa fundada em Harvard em 1882, e que continua servindo os estudantes de Harvard e do MIT até hoje.
-Desde então, acredito que já li este livro umas 4 ou 5 vezes. E ele me ajudou muito em cada uma delas.
-Eu tenho uma mente curiosa, que quer aprender um pouco de tudo. Eu não tenho um espirito essencialista, mas tenho uma admiração muito grande por quem tem esse foco e disciplina.</description>
+      <guid>http://localhost:1313/posts/essencialismo/</guid>
+      <description>&lt;p&gt;Comprei esse livro em 2015 na &lt;a href=&#34;https://store.thecoop.com/mit/&#34;&gt;MIT Coop&lt;/a&gt;, uma livraria/cooperativa fundada em Harvard em 1882, e que continua servindo os estudantes de Harvard e do MIT até hoje.&lt;/p&gt;&#xA;&lt;p&gt;Desde então, acredito que já li este livro umas 4 ou 5 vezes. E ele me ajudou muito em cada uma delas.&lt;/p&gt;&#xA;&lt;p&gt;Eu tenho uma mente curiosa, que quer aprender um pouco de tudo. Eu não tenho um espirito essencialista, mas tenho uma admiração muito grande por quem tem esse foco e disciplina. Tenho consciência que posso melhorar muito quando caminho nessa direção.&lt;/p&gt;</description>
     </item>
-    
   </channel>
 </rss>

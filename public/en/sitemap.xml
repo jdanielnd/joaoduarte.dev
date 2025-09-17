@@ -2,146 +2,91 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>/en/</loc>
+    <loc>http://localhost:1313/en/</loc>
+    <lastmod>2025-09-17T00:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="pt-BR"
+                href="http://localhost:1313/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en-US"
+                href="http://localhost:1313/en/"
+                />
+  </url><url>
+    <loc>http://localhost:1313/en/posts/</loc>
+    <lastmod>2025-09-17T00:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="pt-BR"
+                href="http://localhost:1313/posts/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en-US"
+                href="http://localhost:1313/en/posts/"
+                />
+  </url><url>
+    <loc>http://localhost:1313/en/series/how-databases-work-building-a-postgresql-inspired-db-in-rust/</loc>
+    <lastmod>2025-09-17T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/en/series/</loc>
+    <lastmod>2025-09-17T00:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="pt-BR"
+                href="http://localhost:1313/series/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en-US"
+                href="http://localhost:1313/en/series/"
+                />
+  </url><url>
+    <loc>http://localhost:1313/en/posts/building-database-series/</loc>
+    <lastmod>2025-09-17T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/en/posts/building-database-series-2/</loc>
+    <lastmod>2025-09-17T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/en/posts/essencialismo/</loc>
     <lastmod>2020-04-18T00:00:00+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
-                hreflang="pt"
-                href="/"
+                hreflang="pt-BR"
+                href="http://localhost:1313/posts/essencialismo/"
                 />
     <xhtml:link
                 rel="alternate"
-                hreflang="en"
-                href="/en/"
+                hreflang="en-US"
+                href="http://localhost:1313/en/posts/essencialismo/"
                 />
   </url><url>
-    <loc>/en/blog/</loc>
-    <lastmod>2020-04-18T00:00:00+00:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="pt"
-                href="/blog/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="/en/blog/"
-                />
-  </url><url>
-    <loc>/en/tags/book-review/</loc>
-    <lastmod>2020-04-18T00:00:00+00:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="pt"
-                href="/tags/book-review/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="/en/tags/book-review/"
-                />
-  </url><url>
-    <loc>/en/blog/essencialismo/</loc>
-    <lastmod>2020-04-18T00:00:00+00:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="pt"
-                href="/blog/essencialismo/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="/en/blog/essencialismo/"
-                />
-  </url><url>
-    <loc>/en/tags/</loc>
-    <lastmod>2020-04-18T00:00:00+00:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="pt"
-                href="/tags/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="/en/tags/"
-                />
-  </url><url>
-    <loc>/en/tags/trybe/</loc>
+    <loc>http://localhost:1313/en/posts/trybe-gente-e-tudo/</loc>
     <lastmod>2019-09-18T00:00:00+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
-                hreflang="pt"
-                href="/tags/trybe/"
+                hreflang="pt-BR"
+                href="http://localhost:1313/posts/trybe-gente-e-tudo/"
                 />
     <xhtml:link
                 rel="alternate"
-                hreflang="en"
-                href="/en/tags/trybe/"
+                hreflang="en-US"
+                href="http://localhost:1313/en/posts/trybe-gente-e-tudo/"
                 />
   </url><url>
-    <loc>/en/blog/trybe-gente-e-tudo/</loc>
-    <lastmod>2019-09-18T00:00:00+00:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="pt"
-                href="/blog/trybe-gente-e-tudo/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="/en/blog/trybe-gente-e-tudo/"
-                />
-  </url><url>
-    <loc>/en/tags/culture/</loc>
+    <loc>http://localhost:1313/en/posts/desenvolvimento-software-esporte-coletivo/</loc>
     <lastmod>2019-08-04T00:00:00+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
-                hreflang="pt"
-                href="/tags/culture/"
+                hreflang="pt-BR"
+                href="http://localhost:1313/posts/desenvolvimento-software-esporte-coletivo/"
                 />
     <xhtml:link
                 rel="alternate"
-                hreflang="en"
-                href="/en/tags/culture/"
-                />
-  </url><url>
-    <loc>/en/tags/software-development/</loc>
-    <lastmod>2019-08-04T00:00:00+00:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="pt"
-                href="/tags/software-development/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="/en/tags/software-development/"
-                />
-  </url><url>
-    <loc>/en/blog/desenvolvimento-software-esporte-coletivo/</loc>
-    <lastmod>2019-08-04T00:00:00+00:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="pt"
-                href="/blog/desenvolvimento-software-esporte-coletivo/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="/en/blog/desenvolvimento-software-esporte-coletivo/"
-                />
-  </url><url>
-    <loc>/en/categories/</loc>
-    <xhtml:link
-                rel="alternate"
-                hreflang="pt"
-                href="/categories/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="/en/categories/"
+                hreflang="en-US"
+                href="http://localhost:1313/en/posts/desenvolvimento-software-esporte-coletivo/"
                 />
   </url>
 </urlset>

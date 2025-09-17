@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta http-equiv="X-Clacks-Overhead" content="GNU Terry Pratchett" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="shortcut icon" href="/favicon.ico" />
+<title>Why I&#39;m building a database from scratch (and why you should too) | João Duarte</title>
+<meta name="title" content="Why I&#39;m building a database from scratch (and why you should too)" />
+<meta name="description" content="The production incident that ignited this idea
+A few months ago, we had a database performance crisis at work. It wasn&rsquo;t your typical &ldquo;missing index&rdquo; problem. The system would run fine for hours, handling thousands of queries across multiple indexes. Then, seemingly randomly, query times would degrade from milliseconds to seconds. The database wasn&rsquo;t out of memory. CPU wasn&rsquo;t maxed. Rows fetched peaking afterwards, which looked&hellip; weird, but not obviously wrong." />
+<meta name="keywords" content="" />
+
+
+
+
+
+
+  
+  <meta property="og:url" content="http://localhost:1313/en/posts/building-database-series/">
+  <meta property="og:site_name" content="João Duarte">
+  <meta property="og:title" content="Why I&#39;m building a database from scratch (and why you should too)">
+  <meta property="og:description" content="The production incident that ignited this idea A few months ago, we had a database performance crisis at work. It wasn’t your typical “missing index” problem. The system would run fine for hours, handling thousands of queries across multiple indexes. Then, seemingly randomly, query times would degrade from milliseconds to seconds. The database wasn’t out of memory. CPU wasn’t maxed. Rows fetched peaking afterwards, which looked… weird, but not obviously wrong.">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-09-17T00:00:00+00:00">
+    <meta property="article:modified_time" content="2025-09-17T00:00:00+00:00">
+    <meta property="og:image" content="http://localhost:1313/hugo-bearcub/images/share.webp">
+
+
+  
+  
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="http://localhost:1313/hugo-bearcub/images/share.webp">
+  <meta name="twitter:title" content="Why I&#39;m building a database from scratch (and why you should too)">
+  <meta name="twitter:description" content="The production incident that ignited this idea A few months ago, we had a database performance crisis at work. It wasn’t your typical “missing index” problem. The system would run fine for hours, handling thousands of queries across multiple indexes. Then, seemingly randomly, query times would degrade from milliseconds to seconds. The database wasn’t out of memory. CPU wasn’t maxed. Rows fetched peaking afterwards, which looked… weird, but not obviously wrong.">
+
+
+  
+  
+  <meta itemprop="name" content="Why I&#39;m building a database from scratch (and why you should too)">
+  <meta itemprop="description" content="The production incident that ignited this idea A few months ago, we had a database performance crisis at work. It wasn’t your typical “missing index” problem. The system would run fine for hours, handling thousands of queries across multiple indexes. Then, seemingly randomly, query times would degrade from milliseconds to seconds. The database wasn’t out of memory. CPU wasn’t maxed. Rows fetched peaking afterwards, which looked… weird, but not obviously wrong.">
+  <meta itemprop="datePublished" content="2025-09-17T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2025-09-17T00:00:00+00:00">
+  <meta itemprop="wordCount" content="1266">
+  <meta itemprop="image" content="http://localhost:1313/hugo-bearcub/images/share.webp">
+  <meta itemprop="keywords" content="How Databases Work: Building a PostgreSQL-Inspired DB in Rust">
+
+<meta name="referrer" content="no-referrer-when-downgrade" />
+
+  
+  <link href="/style.min.css" rel="stylesheet">
+
+  
+  <link href="/syntax.min.css" rel="stylesheet">
+
+  
+
+  
+</head>
+
+<body>
+  <header><a href="/en/" class="title">
+    <h2>
+        <img src="/images/logo.svg"/>
+    </h2>
+</a>
+<nav>
+  <a href="/en/">Home</a>
+
+  <a href="/en/posts/">Articles</a>
+
+
+<a href="/index.xml">RSS</a>
+
+
+
+
+
+
+
+  
+    
+    
+      <a class="disabled" role="link" aria-disabled="true">pt-BR 🇧🇷</a>
+    
+  
+
+</nav>
+</header>
+  <main>
+
+<h1>Why I&#39;m building a database from scratch (and why you should too)</h1>
+<p>
+  <i>
+    <time datetime='2025-09-17' pubdate>
+      2025-09-17
+    </time>
+  </i>
+</p>
+
+
+<div>
+    <h4>This article is part of a series.</h4>
+    <p><em>Series: How Databases Work: Building a PostgreSQL-Inspired DB in Rust</em></p>
+    <ul class="list-group">
+        
+        
+        
+            
+                
+                    <li class="list-group-item active">
+                        Part 1: This Article
+                    </li>
+                
+            
+        
+    </ul>
+</div>
+
+
+<content>
+  <h2 id="the-production-incident-that-ignited-this-idea"><strong>The production incident that ignited this idea</strong></h2>
+<p>A few months ago, we had a database performance crisis at work. It wasn&rsquo;t your typical &ldquo;missing index&rdquo; problem. The system would run fine for hours, handling thousands of queries across multiple indexes. Then, seemingly randomly, query times would degrade from milliseconds to seconds. The database wasn&rsquo;t out of memory. CPU wasn&rsquo;t maxed. Rows fetched peaking afterwards, which looked&hellip; weird, but not obviously wrong.</p>
+<p>After days of investigation, we found the culprit hiding deep in PostgreSQL&rsquo;s internals. It was a combination of factors that created the perfect storm. We were able to handle it, but I walked away with an uncomfortable realization:</p>
+<p><strong>I&rsquo;d been using PostgreSQL for years, but I didn&rsquo;t actually understand how it worked.</strong></p>
+<p>Sure, I knew the concepts. B+ trees, ACID properties, indexes. I could draw you a high-level diagram of how a query planner works. But when faced with real performance mysteries, my knowledge was too shallow. It was like being a pilot who knows which buttons to press but doesn&rsquo;t understand aerodynamics.</p>
+<p>So I decided to fix that the only way I know how: by building my own database from scratch.</p>
+<h2 id="why-postgresql"><strong>Why PostgreSQL?</strong></h2>
+<p>I&rsquo;ve built simple key-value stores before. You know how it goes: throw a hash map at the problem, add some persistence, call it a day. They&rsquo;re fun weekend projects, but they don&rsquo;t teach you all the nuances that a large production database has to deal.</p>
+<p>By following PostgreSQL&rsquo;s architecture, I&rsquo;ll learn:</p>
+<ul>
+<li><strong>Write-Ahead Logging (WAL)</strong>: How databases survive crashes mid-write</li>
+<li><strong>Buffer Pool Management</strong>: Why that 8GB of RAM matters more than disk speed</li>
+<li><strong>Page-based Storage</strong>: The fundamental abstraction that makes everything work</li>
+<li><strong>System Catalogs</strong>: How databases store information about themselves</li>
+<li><strong>Query Execution</strong>: From SQL text to actual bytes on disk</li>
+</ul>
+<p>Actually, these aren&rsquo;t PostgreSQL-specific ideas. They&rsquo;re the foundations of almost every relational database. Learn them once, understand databases forever.</p>
+<h2 id="why-rust"><strong>Why Rust?</strong></h2>
+<p>I come from a web development background, so Ruby, Elixir, JavaScript, Python, the occasional Go service. These languages are fantastic for applications, but they hide the exact details I need to understand.</p>
+<p>Rust forces you to think about things databases care about:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-rust" data-lang="rust"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="c1">// In Python, this is just a string
+</span></span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="c1"></span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&#34;Hello, World!&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="ln"> 3</span><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="ln"> 4</span><span class="cl"><span class="w"></span><span class="c1">// In Rust, everything is explicit
+</span></span></span><span class="line"><span class="ln"> 5</span><span class="cl"><span class="c1"></span><span class="kd">let</span><span class="w"> </span><span class="n">data</span>: <span class="kp">&amp;</span><span class="p">[</span><span class="kt">u8</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="sa">b</span><span class="s">&#34;Hello, World!&#34;</span><span class="p">;</span><span class="w">  </span><span class="c1">// Immutable bytes
+</span></span></span><span class="line"><span class="ln"> 6</span><span class="cl"><span class="c1"></span><span class="kd">let</span><span class="w"> </span><span class="n">page</span>: <span class="p">[</span><span class="kt">u8</span><span class="p">;</span><span class="w"> </span><span class="mi">8192</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="mi">8192</span><span class="p">];</span><span class="w">    </span><span class="c1">// Exactly 8KB, stack allocated
+</span></span></span><span class="line"><span class="ln"> 7</span><span class="cl"><span class="c1"></span><span class="kd">let</span><span class="w"> </span><span class="n">offset</span>: <span class="kt">usize</span> <span class="o">=</span><span class="w"> </span><span class="mi">42</span><span class="p">;</span><span class="w">               </span><span class="c1">// Platform-specific size
+</span></span></span><span class="line"><span class="ln"> 8</span><span class="cl"><span class="c1"></span><span class="k">unsafe</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="ln"> 9</span><span class="cl"><span class="w">    </span><span class="c1">// Sometimes you need to cast bytes to structs
+</span></span></span><span class="line"><span class="ln">10</span><span class="cl"><span class="c1"></span><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">header</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&amp;*</span><span class="p">(</span><span class="n">page</span><span class="p">.</span><span class="n">as_ptr</span><span class="p">()</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="o">*</span><span class="k">const</span><span class="w"> </span><span class="n">PageHeader</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="ln">11</span><span class="cl"><span class="w"></span><span class="p">}</span><span class="w">
+</span></span></span></code></pre></div><p>This explicitness is perfect for database work. You&rsquo;re always thinking about:</p>
+<ul>
+<li><strong>Memory layout</strong>: Is this struct packed correctly for disk storage?</li>
+<li><strong>Ownership</strong>: Who owns this buffer? When can it be evicted?</li>
+<li><strong>Lifetimes</strong>: How long does this page reference need to live?</li>
+<li><strong>Error handling</strong>: Every disk operation can fail</li>
+</ul>
+<p>Plus, Rust gives us modern tooling (cargo, great compiler errors, built-in testing) and safety guarantees that make development faster, not slower. No segfaults when manipulating page buffers. No data races when we eventually add concurrency.</p>
+<p>Is Rust the &ldquo;best&rdquo; language for databases? Maybe not. But I think it&rsquo;s a good language for <em>learning</em> to build databases.</p>
+<h2 id="what-we"><strong>What we&rsquo;re building</strong></h2>
+<p>Meet <strong>InoxDB</strong>, the database we&rsquo;re building together!</p>
+<p>InoxDB is our PostgreSQL-inspired database written in Rust. The name? Stainless steel for a Rust project, because even our puns are over-engineered.</p>
+<p>Over the next weeks, we&rsquo;ll build a real SQL database that:</p>
+<h3 id="core-features"><strong>Core Features</strong></h3>
+<ul>
+<li><strong>Persistent Storage</strong>: Your data survives process restarts</li>
+<li><strong>SQL Interface</strong>: Real CREATE TABLE, INSERT, SELECT, DELETE</li>
+<li><strong>Crash Recovery</strong>: Pull the power cord, don&rsquo;t lose committed data</li>
+<li><strong>Buffer Pool</strong>: Cache hot pages in memory for dramatic performance gains</li>
+<li><strong>System Catalogs</strong>: Database stores its own schema (it&rsquo;s meta all the way down)</li>
+</ul>
+<h3 id="architecture-overview"><strong>Architecture Overview</strong></h3>
+<pre tabindex="0"><code>┌────────────────────────────────────────────┐
+│              SQL Layer                     │
+│ Parser (sqlparser-rs) → Planner → Executor │
+└────────────────────┬───────────────────────┘
+                     │
+┌────────────────────▼───────────────────────┐
+│          Access Methods                    │  
+│   Sequential Scan, Index Scan (B+ Tree)    │
+└────────────────────┬───────────────────────┘
+                     │
+┌────────────────────▼───────────────────────┐
+│          Buffer Pool Manager               │
+│   Page Cache, Eviction (LRU), Dirty Pages  │
+└────────────────────┬───────────────────────┘
+                     │
+┌────────────────────▼───────────────────────┐
+│           Storage Engine                   │
+│   Heap Files, Pages (8KB), WAL, Records    │
+└────────────────────────────────────────────┘
+</code></pre><h3 id="smart-decisions"><strong>Smart decisions</strong></h3>
+<p>One key decision: we&rsquo;re using <code>sqlparser-rs</code> instead of building our own SQL parser. Why? Parsing is a fascinating but separate problem domain. By using a battle-tested parser, we can focus 100% on database internals: the storage engine, query execution, buffer management. That&rsquo;s where the real database magic happens.</p>
+<h3 id="not-building-yet"><strong>Not building (yet)</strong></h3>
+<ul>
+<li>Network protocol (we&rsquo;ll use a REPL)</li>
+<li>Concurrent transactions (single-writer is complex enough)</li>
+<li>Query optimization beyond basic index selection</li>
+<li>JOINs, views, stored procedures</li>
+<li>Replication or any distributed features</li>
+</ul>
+<p>This scope is carefully chosen. Every feature teaches a fundamental concept without getting lost in complexity.</p>
+<h2 id="demo-what-inoxdb-will-look-like"><strong>Demo: What InoxDB will look like</strong></h2>
+<p>Here&rsquo;s what we&rsquo;re working toward:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="ln"> 1</span><span class="cl">$ cargo run --release
+</span></span><span class="line"><span class="ln"> 2</span><span class="cl">InoxDB v0.1.0 <span class="o">(</span>PostgreSQL-inspired database<span class="o">)</span>
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl">    
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl">Type <span class="se">\h</span> <span class="k">for</span> help, <span class="se">\q</span> to quit
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl">
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl">inox&gt; CREATE TABLE employees <span class="o">(</span>
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl">    id INTEGER PRIMARY KEY,
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl">    name VARCHAR<span class="o">(</span>100<span class="o">)</span> NOT NULL,
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl">    department VARCHAR<span class="o">(</span>50<span class="o">)</span>,
+</span></span><span class="line"><span class="ln">10</span><span class="cl">    salary INTEGER,
+</span></span><span class="line"><span class="ln">11</span><span class="cl">    active BOOLEAN DEFAULT <span class="nb">true</span>
+</span></span><span class="line"><span class="ln">12</span><span class="cl"><span class="o">)</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">13</span><span class="cl">CREATE TABLE
+</span></span><span class="line"><span class="ln">14</span><span class="cl">Time: 12ms
+</span></span><span class="line"><span class="ln">15</span><span class="cl">
+</span></span><span class="line"><span class="ln">16</span><span class="cl">inox&gt; INSERT INTO employees <span class="o">(</span>id, name, department, salary, active<span class="o">)</span> VALUES
+</span></span><span class="line"><span class="ln">17</span><span class="cl">    <span class="o">(</span>1, <span class="s1">&#39;Alice Johnson&#39;</span>, <span class="s1">&#39;Engineering&#39;</span>, 95000, <span class="nb">true</span><span class="o">)</span>,
+</span></span><span class="line"><span class="ln">18</span><span class="cl">    <span class="o">(</span>2, <span class="s1">&#39;Bob Smith&#39;</span>, <span class="s1">&#39;Sales&#39;</span>, 65000, <span class="nb">true</span><span class="o">)</span>,
+</span></span><span class="line"><span class="ln">19</span><span class="cl">    <span class="o">(</span>3, <span class="s1">&#39;Charlie Brown&#39;</span>, <span class="s1">&#39;Engineering&#39;</span>, 85000, <span class="nb">false</span><span class="o">)</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">20</span><span class="cl">INSERT <span class="m">3</span>
+</span></span><span class="line"><span class="ln">21</span><span class="cl">Time: 8ms
+</span></span><span class="line"><span class="ln">22</span><span class="cl">
+</span></span><span class="line"><span class="ln">23</span><span class="cl">inox&gt; SELECT name, salary FROM employees 
+</span></span><span class="line"><span class="ln">24</span><span class="cl">      WHERE <span class="nv">department</span> <span class="o">=</span> <span class="s1">&#39;Engineering&#39;</span> AND <span class="nv">active</span> <span class="o">=</span> <span class="nb">true</span>
+</span></span><span class="line"><span class="ln">25</span><span class="cl">      ORDER BY salary DESC<span class="p">;</span>
+</span></span><span class="line"><span class="ln">26</span><span class="cl">┌───────────────┬────────┐
+</span></span><span class="line"><span class="ln">27</span><span class="cl">│ name          │ salary │
+</span></span><span class="line"><span class="ln">28</span><span class="cl">├───────────────┼────────┤
+</span></span><span class="line"><span class="ln">29</span><span class="cl">│ Alice Johnson │ <span class="m">95000</span>  │
+</span></span><span class="line"><span class="ln">30</span><span class="cl">└───────────────┴────────┘
+</span></span><span class="line"><span class="ln">31</span><span class="cl"><span class="o">(</span><span class="m">1</span> row<span class="o">)</span>
+</span></span><span class="line"><span class="ln">32</span><span class="cl">Time: 3ms
+</span></span><span class="line"><span class="ln">33</span><span class="cl">
+</span></span><span class="line"><span class="ln">34</span><span class="cl">inox&gt; <span class="se">\d</span> employees
+</span></span><span class="line"><span class="ln">35</span><span class="cl">Table <span class="s2">&#34;employees&#34;</span>
+</span></span><span class="line"><span class="ln">36</span><span class="cl">┌────────────┬──────────────┬──────────┐
+</span></span><span class="line"><span class="ln">37</span><span class="cl">│ Column     │ Type         │ Nullable │
+</span></span><span class="line"><span class="ln">38</span><span class="cl">├────────────┼──────────────┼──────────┤
+</span></span><span class="line"><span class="ln">39</span><span class="cl">│ id         │ INTEGER      │ NOT NULL │
+</span></span><span class="line"><span class="ln">40</span><span class="cl">│ name       │ VARCHAR<span class="o">(</span>100<span class="o">)</span> │ NOT NULL │
+</span></span><span class="line"><span class="ln">41</span><span class="cl">│ department │ VARCHAR<span class="o">(</span>50<span class="o">)</span>  │ NULL     │
+</span></span><span class="line"><span class="ln">42</span><span class="cl">│ salary     │ INTEGER      │ NULL     │
+</span></span><span class="line"><span class="ln">43</span><span class="cl">│ active     │ BOOLEAN      │ NULL     │
+</span></span><span class="line"><span class="ln">44</span><span class="cl">└────────────┴──────────────┴──────────┘
+</span></span><span class="line"><span class="ln">45</span><span class="cl">Indexes:
+</span></span><span class="line"><span class="ln">46</span><span class="cl">  <span class="s2">&#34;employees_pkey&#34;</span> PRIMARY KEY <span class="o">(</span>id<span class="o">)</span>
+</span></span><span class="line"><span class="ln">47</span><span class="cl">
+</span></span><span class="line"><span class="ln">48</span><span class="cl">inox&gt; <span class="se">\q</span>
+</span></span><span class="line"><span class="ln">49</span><span class="cl">Goodbye!
+</span></span></code></pre></div><h2 id="the-roadmap"><strong>The Roadmap</strong></h2>
+<p>Each major milestone builds on the previous one:</p>
+<p><strong>Milestone 1: Storage Foundations</strong><br>
+Build heap files and page management. Watch your data survive a restart.</p>
+<p><strong>Milestone 2: Write-Ahead Logging</strong><br>
+Implement durability. Crash InoxDB mid-write and see it recover perfectly.</p>
+<p><strong>Milestone 3: Buffer Pool Magic</strong><br>
+Add caching. Watch query performance improve dramatically without changing query logic.</p>
+<p><strong>Milestone 4: System Catalogs</strong><br>
+Make the database self-aware. Store table definitions&hellip; in tables. (This one will bend your brain!)</p>
+<p><strong>Milestone 5: SQL Comes Alive</strong><br>
+Connect everything. Parse SQL, plan queries, execute them against real data.</p>
+<h2 id="join-the-inoxdb-journey"><strong>Join the InoxDB journey</strong></h2>
+<p>Next week, we dive into the deep end:</p>
+<p><strong>Storage Foundations: How to Persist a Row</strong></p>
+<p>We&rsquo;ll answer questions like:</p>
+<ul>
+<li>Why do databases use fixed-size pages instead of just appending to a file?</li>
+<li>How do you store variable-length data (like strings) efficiently?</li>
+<li>What&rsquo;s a slot directory and why does every database have one?</li>
+<li>How do you handle deletes without actually deleting anything?</li>
+</ul>
+<p>We&rsquo;ll write actual Rust code that takes a row and turns it into bytes on disk. Bytes that survive process restarts, system crashes, and even me accidentally deleting the wrong files (there will be stories).</p>
+<p>The InoxDB code for each post will be available on <a href="https://github.com/jdanielnd/inoxdb">GitHub</a>, tagged by milestone so you can:</p>
+<ul>
+<li>Follow along and build your own version</li>
+<li>Jump to any milestone&rsquo;s starting point</li>
+<li>Submit issues when you find my inevitable bugs</li>
+<li>Contribute improvements (this is a learning project for all of us!)</li>
+</ul>
+<p><strong>Ready to understand databases from the inside out? Welcome to the InoxDB project. See you next week.</strong></p>
+<hr>
+<p><em>Building InoxDB alongside me? Have questions or insights to share? Find me on <a href="https://twitter.com/jdanielnd">Twitter/X</a> or jump into discussions on the <a href="https://github.com/jdanielnd/inoxdb">GitHub repo</a>. This is more fun when we learn together.</em></p>
+
+</content>
+
+<div>
+    <h4>This article is part of a series.</h4>
+    <p><em>Series: How Databases Work: Building a PostgreSQL-Inspired DB in Rust</em></p>
+    <ul class="list-group">
+        
+        
+        
+            
+                
+                    <li class="list-group-item active">
+                        Part 1: This Article
+                    </li>
+                
+            
+        
+    </ul>
+</div>
+
+
+<p>
+  
+</p>
+
+  </main>
+  <footer><small>
+  João Duarte © 2025 | 
+</small></footer>
+
+    
+</body>
+
+</html>

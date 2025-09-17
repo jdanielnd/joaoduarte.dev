@@ -1,22 +1,20 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>culture on João Duarte</title>
-    <link>/en/tags/culture/</link>
-    <description>Recent content in culture on João Duarte</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <title>Culture on João Duarte</title>
+    <link>http://localhost:1313/en/tags/culture/</link>
+    <description>Recent content in Culture on João Duarte</description>
+    <generator>Hugo</generator>
     <language>en-US</language>
-    <copyright>João Duarte © 2019-{year}</copyright>
-    <lastBuildDate>Sun, 04 Aug 2019 00:00:00 +0000</lastBuildDate><atom:link href="/en/tags/culture/index.xml" rel="self" type="application/rss+xml" />
+    <copyright>João Duarte ©</copyright>
+    <lastBuildDate>Sun, 04 Aug 2019 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/en/tags/culture/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Software development is a team sport</title>
-      <link>/en/blog/desenvolvimento-software-esporte-coletivo/</link>
+      <link>http://localhost:1313/en/posts/desenvolvimento-software-esporte-coletivo/</link>
       <pubDate>Sun, 04 Aug 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/en/blog/desenvolvimento-software-esporte-coletivo/</guid>
-      <description>It is very common to imagine a software engineer as a solitary genius who likes to work alone, reclusive, and does not need anyone else to solve any problem that may arise.
-It is true that for some time, computing has attracted people with more introspective personalities. But what has been happening is that the teams that have achieved the greatest long-term success are those that see software development as a team sport.</description>
+      <guid>http://localhost:1313/en/posts/desenvolvimento-software-esporte-coletivo/</guid>
+      <description>&lt;p&gt;It is very common to imagine a software engineer as a solitary genius who likes to work alone, reclusive, and does not need anyone else to solve any problem that may arise.&lt;/p&gt;&#xA;&lt;p&gt;It is true that for some time, computing has attracted people with more introspective personalities. But what has been happening is that the teams that have achieved the greatest long-term success are those that see software development as a team sport.&lt;/p&gt;</description>
     </item>
-    
   </channel>
 </rss>
