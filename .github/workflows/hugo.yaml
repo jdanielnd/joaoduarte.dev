@@ -45,6 +45,12 @@ jobs:
         with:
           submodules: recursive
           fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Update submodule URL
+        run: |
+          git config submodule.themes/hugo-bearcub.url https://github.com/jdanielnd/hugo-bearcub.git
+          git submodule sync
+          git submodule update --init --recursive
       - name: Setup Pages
         id: pages
         uses: actions/configure-pages@v5
